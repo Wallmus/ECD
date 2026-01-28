@@ -1,0 +1,2 @@
+SELECT DISTINCT county
+FROM ecd;
