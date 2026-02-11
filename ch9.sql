@@ -8,10 +8,13 @@ FROM population;
 
 -- 2. Rank counties from largest to smallest population for each year.
 SELECT *,
-	RANK()
-FROM population
+	RANK() OVER(PARTITION by year ORDER BY population DESC) AS pop_rank
+FROM population;
 
 -- 3. Use the unemployment table:
 -- Calculate the rolling 12-month average unemployment rate using the unemployment table.
 -- Include the current month and the preceding 11 months.
 -- Hint: Reference two columns in the ORDER BY argument (county and period).
+SELECT *,
+	AVG(value) OVER(PARTITION BY county ORDER BY year, period ROWS BETWEEN 11 PRECEDING AND CURRENT ROW) AS avg_unemployment
+FROM unemployment;
